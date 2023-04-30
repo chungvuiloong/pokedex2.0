@@ -1,25 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import PokemonCard from './components/PokemonCards';
 
-function App() {
+const App = () => {
+  const [totalPokemon, setTotalPokemon] = useState(0);
+  const [pokemonList, setPokemonList] = useState([]);
+
+  // This useEffect is used to get the total number of pokemon in the database.
+  useEffect(() => {
+    axios.get(`https://pokeapi.co/api/v2/pokemon`)
+      .then(response => {
+        setTotalPokemon(response.data.count);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, []);
+
+  // This useEffect is used to get the list of pokemon from the database.
+  useEffect(() => {
+    axios.get(`https://pokeapi.co/api/v2/pokemon?limit=${totalPokemon}`)
+      .then(response => {
+        setPokemonList(response.data.results);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [totalPokemon]);
+
+  console.log(pokemonList);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Pokedex</h1>
+      {/* <PokemonCard
+        name={pokemon.name}
+      /> */}
+  
+        {/* {pokemonList && pokemonList.map(pokemon => (
+        <div key={pokemon.name}>{pokemon.name}</div>
+        ))} */}
+
     </div>
   );
-}
+};
 
 export default App;
