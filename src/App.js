@@ -102,14 +102,11 @@ const App = () => {
 
   console.log("Data in list", pokemonDetails);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
     return (
       <div>
         <h1>Pokedex</h1>
         <div>
-          {pokemonDetails && pokemonDetails.map((pokemon, i ) => <div key={i}>{capitalizeFirstLetter(pokemon.name)}</div>)}
+          {loading ? <div>Loading...</div>: pokemonDetails && pokemonDetails.map((pokemon, i ) => <div key={i}>{capitalizeFirstLetter(pokemon.name)}</div>)}
         </div>
       </div>
     );
