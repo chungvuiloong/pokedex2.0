@@ -7,6 +7,7 @@ const App = () => {
   const [totalPokemon, setTotalPokemon] = useState(0);
   const [pokemonList, setPokemonList] = useState([]);
   const [pokemonDetails, setPokemonDetails] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   // This useEffect is used to get the total number of pokemon in the database.
   useEffect(() => {
@@ -90,6 +91,9 @@ const App = () => {
 
       // Update the state with the pokemon data
       setPokemonDetails(pokemonData);
+      setTimeout(() => {
+        setLoading(false);
+      }, 2000);
     })
     .catch(error => {
       console.log(error);
@@ -98,9 +102,9 @@ const App = () => {
 
   console.log("Data in list", pokemonDetails);
 
-  if (!pokemonDetails) {
+  if (loading) {
     return <div>Loading...</div>;
-  } else {
+  }
     return (
       <div>
         <h1>Pokedex</h1>
@@ -110,6 +114,6 @@ const App = () => {
       </div>
     );
   }
-}  
+
 
 export default App;
