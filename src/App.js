@@ -6,6 +6,7 @@ import { capitalizeFirstLetter } from './helpers/Helpers';
 const App = () => {
   const [totalPokemon, setTotalPokemon] = useState(0);
   const [pokemonList, setPokemonList] = useState([]);
+  const [pokemonDetails, setPokemonDetails] = useState([]);
 
   // This useEffect is used to get the total number of pokemon in the database.
   useEffect(() => {
@@ -88,33 +89,27 @@ const App = () => {
       });
 
       // Update the state with the pokemon data
-      setPokemonList(pokemonData);
+      setPokemonDetails(pokemonData);
     })
     .catch(error => {
       console.log(error);
     });
     }, [pokemonList]);
 
-  
+  console.log("Data in list", pokemonDetails);
 
-  console.log("Data in list", pokemonList);
-
-  return (
-    <div>
-      <h1>Pokedex</h1>
+  if (!pokemonDetails) {
+    return <div>Loading...</div>;
+  } else {
+    return (
       <div>
-        {pokemonList && pokemonList.map((pokemon, i ) => <div key={i}>{capitalizeFirstLetter(pokemon.name)} || {pokemon.url}</div>)}
+        <h1>Pokedex</h1>
+        <div>
+          {pokemonDetails && pokemonDetails.map((pokemon, i ) => <div key={i}>{capitalizeFirstLetter(pokemon.name)}</div>)}
+        </div>
       </div>
-      {/* <PokemonCard
-        name={pokemon.name}
-      /> */}
-  
-        {/* {pokemonList && pokemonList.map(pokemon => (
-        <div key={pokemon.name}>{pokemon.name}</div>
-        ))} */}
-
-    </div>
-  );
-};
+    );
+  }
+}  
 
 export default App;
